@@ -1,0 +1,15 @@
+{
+  "name": "sola-security",
+  "owner": {
+    "name": "Sola Security",
+    "email": "support@sola.security"
+  },
+  "description": "Sola Security's Claude Code plugins",
+  "plugins": [
+    {
+      "name": "sola-coding-agent-reporter",
+      "source": "./plugins/sola-coding-agent-reporter",
+      "description": "Reports Claude Code tool calls to Sola for security visibility and asset graph correlation"
+    }
+  ]
+}

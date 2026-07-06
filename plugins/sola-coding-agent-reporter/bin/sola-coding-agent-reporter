@@ -1,0 +1,45 @@
+#!/bin/sh
+# Platform launcher for sola-ca. Selects the correct prebuilt
+# binary based on the host OS/CPU and execs it with the original args/stdio.
+#
+# Tests can override platform detection via SOLA_REPORTER_TEST_UNAME_S
+# (mapped to `uname -s`) and SOLA_REPORTER_TEST_UNAME_M (`uname -m`).
+
+set -eu
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+uname_s="${SOLA_REPORTER_TEST_UNAME_S:-$(uname -s)}"
+uname_m="${SOLA_REPORTER_TEST_UNAME_M:-$(uname -m)}"
+
+case "$uname_s" in
+  Darwin)
+    case "$uname_m" in
+      arm64|aarch64) target="sola-ca-darwin-arm64" ;;
+      x86_64)         target="sola-ca-darwin-x64" ;;
+      *)
+        exit 0
+        ;;
+    esac
+    ;;
+  Linux)
+    case "$uname_m" in
+      x86_64|amd64)  target="sola-ca-linux-x64" ;;
+      arm64|aarch64) target="sola-ca-linux-arm64" ;;
+      *)
+        exit 0
+        ;;
+    esac
+    ;;
+  *)
+    exit 0
+    ;;
+esac
+
+target_path="$SCRIPT_DIR/$target"
+if [ ! -x "$target_path" ]; then
+  exit 0
+fi
+
+export SOLA_VENDOR=claude_code
+exec "$target_path" "$@"
