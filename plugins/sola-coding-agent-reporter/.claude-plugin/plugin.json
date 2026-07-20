@@ -1,6 +1,6 @@
 {
   "name": "sola-coding-agent-reporter",
-  "version": "0.3.0",
+  "version": "0.5.0",
   "description": "Reports Claude Code tool calls to Sola for security visibility and asset graph correlation",
   "author": {
     "name": "Sola Security",
